@@ -14,7 +14,7 @@ public abstract class BaseViewModel : INotifyPropertyChanged
     /// <summary>
     /// 
     /// </summary>
-    public bool IsBusy
+    public virtual bool IsBusy
     {
         get => _IsBusy;
         set
@@ -41,7 +41,7 @@ public abstract class BaseViewModel : INotifyPropertyChanged
     /// <summary>
     /// 
     /// </summary>
-    public void Busy()
+    public virtual void Busy()
     {
         IsBusy = true;
     }
@@ -49,7 +49,7 @@ public abstract class BaseViewModel : INotifyPropertyChanged
     /// <summary>
     /// 
     /// </summary>
-    public void UnBusy()
+    public virtual void UnBusy()
     {
         IsBusy = false;
     }
@@ -62,7 +62,7 @@ public abstract class BaseViewModel : INotifyPropertyChanged
     /// <param name="onSuccess"></param>
     /// <param name="onError"></param>
     /// <returns></returns>
-    public async virtual Task FetchData<TResult>(Func<Task<TResult>> getServerResult, Func<TResult, Task> onSuccess, Func<Exception, Task> onError = default)
+    public async virtual Task ExecuteApi<TResult>(Func<Task<TResult>> getServerResult, Func<TResult, Task> onSuccess, Func<Exception, Task> onError = default)
     {
         try
         {
@@ -95,9 +95,9 @@ public abstract class BaseViewModel : INotifyPropertyChanged
     /// <param name="onSuccess"></param>
     /// <param name="onError"></param>
     /// <returns></returns>
-    public Task FetchData(Func<Task<ErrorContract>> getServerResult, Func<Task> onSuccess, Func<Exception, Task> onError = default)
+    public virtual Task ExecuteApi(Func<Task<ErrorContract>> getServerResult, Func<Task> onSuccess, Func<Exception, Task> onError = default)
     {
-        return FetchData(getServerResult, async (x) =>
+        return ExecuteApi(getServerResult, async (x) =>
         {
             await onSuccess();
         }, onError);
