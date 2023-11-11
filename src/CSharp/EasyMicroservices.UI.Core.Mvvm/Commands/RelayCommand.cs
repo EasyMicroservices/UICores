@@ -17,6 +17,16 @@ public class RelayCommand : BaseCommand
     {
 
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="execute"></param>
+    public RelayCommand(Action execute)
+        : this(execute, () => true)
+    {
+
+    }
 }
 
 /// <summary>
@@ -32,6 +42,16 @@ public class RelayCommand<T> : BaseCommand
     /// <param name="canExecute"></param>
     public RelayCommand(Action<T> execute, Func<T, bool> canExecute)
         : base((x) => execute((T)x), (x) => canExecute((T)x))
+    {
+
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="execute"></param>
+    public RelayCommand(Action<T> execute)
+        : this((x) => execute((T)x), (x) => true)
     {
 
     }
