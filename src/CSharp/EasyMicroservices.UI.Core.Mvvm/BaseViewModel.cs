@@ -62,12 +62,13 @@ public abstract class BaseViewModel : INotifyPropertyChanged
     /// <param name="onSuccess"></param>
     /// <param name="onError"></param>
     /// <returns></returns>
-    public async virtual Task ExecuteApi<TResult>(Func<Task<TResult>> getServerResult, Func<TResult, Task> onSuccess, Func<Exception, Task> onError = default)
+    public async virtual Task ExecuteApi<TResult>(Func<Task<object>> getServerResult, Func<TResult, Task> onSuccess, Func<Exception, Task> onError = default)
     {
         try
         {
             Busy();
             var result = await getServerResult();
+
             var response = result.ToContract<TResult>();
 
             if (response.IsSuccess)
@@ -95,12 +96,31 @@ public abstract class BaseViewModel : INotifyPropertyChanged
     /// <param name="onSuccess"></param>
     /// <param name="onError"></param>
     /// <returns></returns>
-    public virtual Task ExecuteApi(Func<Task<ErrorContract>> getServerResult, Func<Task> onSuccess, Func<Exception, Task> onError = default)
+    public virtual async Task ExecuteApi(Func<Task<object>> getServerResult, Func<Task> onSuccess, Func<Exception, Task> onError = default)
     {
-        return ExecuteApi(getServerResult, async (x) =>
+        try
         {
-            await onSuccess();
-        }, onError);
+            Busy();
+            var result = await getServerResult();
+
+            var response = result.ToContract();
+
+            if (response.IsSuccess)
+                await onSuccess();
+            else
+                await DisplayFetchError(response.Error);
+        }
+        catch (Exception ex)
+        {
+            if (onError != null)
+                await onError(ex);
+            else
+                await DisplayError(ex.ToString());
+        }
+        finally
+        {
+            UnBusy();
+        }
     }
 
     /// <summary>
