@@ -1,4 +1,5 @@
-﻿using EasyMicroservices.UI.Core.Interfaces;
+﻿using EasyMicroservices.ServiceContracts.Exceptions;
+using EasyMicroservices.UI.Core.Interfaces;
 using System;
 using System.Windows.Input;
 
@@ -82,6 +83,10 @@ public abstract class BaseCommand : ICommand
                 CanExecuteChanged?.Invoke(this, new EventArgs());
             }
             _execute(parameter);
+        }
+        catch (InvalidResultOfMessageContractException ex)
+        {
+            _busyViewModel?.DisplayFetchError(ex.MessageContract.Error);
         }
         catch (Exception ex)
         {
