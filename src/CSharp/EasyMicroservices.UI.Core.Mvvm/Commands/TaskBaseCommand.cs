@@ -1,4 +1,5 @@
-﻿using EasyMicroservices.UI.Core.Interfaces;
+﻿using EasyMicroservices.ServiceContracts.Exceptions;
+using EasyMicroservices.UI.Core.Interfaces;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -88,6 +89,10 @@ namespace EasyMicroservices.UI.Core.Commands
             try
             {
                 await _execute(parameter);
+            }
+            catch (InvalidResultOfMessageContractException ex)
+            {
+                _busyViewModel?.DisplayFetchError(ex.MessageContract.Error);
             }
             catch (Exception ex)
             {
