@@ -9,12 +9,21 @@ namespace EasyMicroservices.UI.Core;
 /// <summary>
 /// 
 /// </summary>
-public abstract class BaseViewModel : IBusyViewModel, INotifyPropertyChanged
+public abstract class BaseViewModel : IBusyViewModel, INotifyPropertyChanged, IDisposable
 {
     /// <summary>
     /// 
     /// </summary>
+    public BaseViewModel()
+    {
+        PropertyChanged += BaseViewModel_PropertyChanged;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public Action<bool> OnBusyChanged { get; set; }
+    Action _OnBindPropertyChanged;
 
     bool _IsBusy;
     /// <summary>
@@ -158,5 +167,27 @@ public abstract class BaseViewModel : IBusyViewModel, INotifyPropertyChanged
     public virtual Task DisplayError(string message)
     {
         return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="action"></param>
+    public virtual void BindPropertyChanged(Action action)
+    {
+        _OnBindPropertyChanged = action;
+    }
+
+    private void BaseViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        _OnBindPropertyChanged?.Invoke();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public virtual void Dispose()
+    {
+        PropertyChanged -= BaseViewModel_PropertyChanged;
     }
 }
