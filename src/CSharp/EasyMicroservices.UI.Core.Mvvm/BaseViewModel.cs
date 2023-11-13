@@ -1,4 +1,5 @@
 ﻿using EasyMicroservices.ServiceContracts;
+using EasyMicroservices.UI.Core.Interfaces;
 using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -8,8 +9,13 @@ namespace EasyMicroservices.UI.Core;
 /// <summary>
 /// 
 /// </summary>
-public abstract class BaseViewModel : INotifyPropertyChanged
+public abstract class BaseViewModel : IBusyViewModel, INotifyPropertyChanged
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    public Action<bool> OnBusyChanged { get; set; }
+
     bool _IsBusy;
     /// <summary>
     /// 
@@ -20,6 +26,7 @@ public abstract class BaseViewModel : INotifyPropertyChanged
         set
         {
             _IsBusy = value;
+            OnBusyChanged?.Invoke(value);
             OnPropertyChanged(nameof(IsBusy));
         }
     }
@@ -128,7 +135,7 @@ public abstract class BaseViewModel : INotifyPropertyChanged
     /// </summary>
     /// <param name="exception"></param>
     /// <returns></returns>
-    public virtual Task DisplayError(Exception exception)
+    public virtual Task OnError(Exception exception)
     {
         return Task.CompletedTask;
     }
