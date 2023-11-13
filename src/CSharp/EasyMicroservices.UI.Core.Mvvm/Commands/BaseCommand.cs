@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EasyMicroservices.UI.Core.Interfaces;
+using System;
 using System.Windows.Input;
 
 namespace EasyMicroservices.UI.Core.Commands;
@@ -12,8 +13,18 @@ public abstract class BaseCommand : ICommand
     /// 
     /// </summary>
     public event EventHandler CanExecuteChanged;
-    private readonly Action<object> _execute = null;
-    private readonly Func<object, bool> _canExecute = null;
+    /// <summary>
+    /// 
+    /// </summary>
+    protected readonly Action<object> _execute = null;
+    /// <summary>
+    /// 
+    /// </summary>
+    protected readonly Func<object, bool> _canExecute = null;
+    /// <summary>
+    /// /
+    /// </summary>
+    protected readonly IBusyViewModel _busyViewModel = null;
 
     /// <summary>
     /// 
@@ -29,12 +40,32 @@ public abstract class BaseCommand : ICommand
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="busyViewModel"></param>
+    /// <param name="execute"></param>
+    /// <param name="canExecute"></param>
+    public BaseCommand(IBusyViewModel busyViewModel, Action<object> execute, Func<object, bool> canExecute)
+    {
+        _execute = execute;
+        _canExecute = canExecute;
+        _busyViewModel = busyViewModel;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     /// <param name="parameter"></param>
     /// <returns></returns>
     public virtual bool CanExecute(object parameter = null)
     {
-        CanExecuteChanged?.Invoke(this, new EventArgs());
-        return _canExecute == null || _canExecute(parameter);
+        try
+        {
+            return _canExecute == null || _canExecute(parameter);
+        }
+        catch (Exception ex)
+        {
+            _busyViewModel?.OnError(ex);
+            throw;
+        }
     }
 
     /// <summary>
@@ -43,6 +74,26 @@ public abstract class BaseCommand : ICommand
     /// <param name="parameter"></param>
     public virtual void Execute(object parameter)
     {
-        _execute(parameter);
+        try
+        {
+            if (_busyViewModel != null)
+            {
+                _busyViewModel.Busy();
+                CanExecuteChanged?.Invoke(this, new EventArgs());
+            }
+            _execute(parameter);
+        }
+        catch (Exception ex)
+        {
+            _busyViewModel?.OnError(ex);
+        }
+        finally
+        {
+            if (_busyViewModel != null)
+            {
+                _busyViewModel.UnBusy();
+                CanExecuteChanged?.Invoke(this, new EventArgs());
+            }
+        }
     }
 }
