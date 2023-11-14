@@ -1,10 +1,10 @@
 ﻿using EasyMicroservices.ServiceContracts.Exceptions;
-using EasyMicroservices.UI.Core.Interfaces;
+using EasyMicroservices.UI.Cores.Interfaces;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace EasyMicroservices.UI.Core.Commands
+namespace EasyMicroservices.UI.Cores.Commands
 {
     /// <summary>
     /// 

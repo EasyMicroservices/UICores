@@ -1,10 +1,10 @@
 ﻿using EasyMicroservices.ServiceContracts;
-using EasyMicroservices.UI.Core.Interfaces;
+using EasyMicroservices.UI.Cores.Interfaces;
 using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 
-namespace EasyMicroservices.UI.Core;
+namespace EasyMicroservices.UI.Cores;
 
 /// <summary>
 /// 

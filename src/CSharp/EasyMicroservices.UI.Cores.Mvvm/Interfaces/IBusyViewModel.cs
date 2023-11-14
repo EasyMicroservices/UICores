@@ -3,7 +3,7 @@ using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 
-namespace EasyMicroservices.UI.Core.Interfaces
+namespace EasyMicroservices.UI.Cores.Interfaces
 {
     /// <summary>
     /// 
