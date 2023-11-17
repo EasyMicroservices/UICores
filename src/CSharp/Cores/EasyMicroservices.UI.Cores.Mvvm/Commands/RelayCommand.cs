@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EasyMicroservices.UI.Core.Commands;
+namespace EasyMicroservices.UI.Cores.Commands;
 
 /// <summary>
 /// 
@@ -51,7 +51,7 @@ public class RelayCommand<T> : BaseCommand
     /// </summary>
     /// <param name="execute"></param>
     public RelayCommand(Action<T> execute)
-        : this((x) => execute((T)x), (x) => true)
+        : this((x) => execute(x), (x) => true)
     {
 
     }

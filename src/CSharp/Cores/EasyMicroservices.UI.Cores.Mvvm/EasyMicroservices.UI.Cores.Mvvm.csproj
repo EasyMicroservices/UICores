@@ -5,19 +5,19 @@
     <Platforms>AnyCPU;x64;x86</Platforms>
     <Authors>EasyMicroservices</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.0.6</Version>
+    <Version>0.0.0.7</Version>
     <Description>Model View View Model</Description>
     <Copyright>EasyMicroservices@gmail.com</Copyright>
     <PackageTags>mvvm,mvpvm,modelview,modelviewviewmodel</PackageTags>
     <PackageProjectUrl>https://github.com/EasyMicroservices/UICores</PackageProjectUrl>
     <LangVersion>latest</LangVersion>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>.\bin\$(Configuration)\$(TargetFramework)\EasyMicroservices.UI.Core.Mvvm.xml</DocumentationFile>
-    <RootNamespace>EasyMicroservices.UI.Core</RootNamespace>
+    <DocumentationFile>.\bin\$(Configuration)\$(TargetFramework)\EasyMicroservices.UI.Cores.Mvvm.xml</DocumentationFile>
+    <RootNamespace>EasyMicroservices.UI.Cores</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EasyMicroservices.ServiceContracts" Version="0.0.0.18" />
+    <PackageReference Include="EasyMicroservices.ServiceContracts" Version="0.0.0.19" />
   </ItemGroup>
 
 </Project>

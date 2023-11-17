@@ -1,15 +1,14 @@
 ﻿using EasyMicroservices.ServiceContracts.Exceptions;
-using EasyMicroservices.UI.Core.Interfaces;
+using EasyMicroservices.UI.Cores.Interfaces;
 using System;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
-namespace EasyMicroservices.UI.Core.Commands
+namespace EasyMicroservices.UI.Cores.Commands
 {
     /// <summary>
     /// 
     /// </summary>
-    public class TaskBaseCommand : ICommand
+    public class TaskBaseCommand : ICommandAsync
     {
         /// <summary>
         /// 
@@ -76,11 +75,7 @@ namespace EasyMicroservices.UI.Core.Commands
         /// <param name="parameter"></param>
         public virtual void Execute(object parameter)
         {
-            if (_busyViewModel != null)
-            {
-                _busyViewModel.Busy();
-                CanExecuteChanged?.Invoke(this, new EventArgs());
-            }
+            InternalExecuteInit();
             _ = InternalExecute(parameter);
         }
 
@@ -106,6 +101,26 @@ namespace EasyMicroservices.UI.Core.Commands
                     CanExecuteChanged?.Invoke(this, new EventArgs());
                 }
             }
+        }
+
+        void InternalExecuteInit()
+        {
+            if (_busyViewModel != null)
+            {
+                _busyViewModel.Busy();
+                CanExecuteChanged?.Invoke(this, new EventArgs());
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
+        public async Task ExecuteAsync(object parameter)
+        {
+            InternalExecuteInit();
+            await InternalExecute(parameter);
         }
     }
 }

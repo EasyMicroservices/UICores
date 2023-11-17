@@ -1,8 +1,8 @@
-﻿using EasyMicroservices.UI.Core.Interfaces;
+﻿using EasyMicroservices.UI.Cores.Interfaces;
 using System;
 using System.Threading.Tasks;
 
-namespace EasyMicroservices.UI.Core.Commands
+namespace EasyMicroservices.UI.Cores.Commands
 {
     /// <summary>
     /// 
