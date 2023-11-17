@@ -17,9 +17,9 @@ jobs:
           dotnet-version:  |
             7.0.x
       - name: Restore dependencies
-        run: dotnet restore ./src/CSharp/Cores/EasyMicroservices.UI.Core.sln
+        run: dotnet restore ./src/CSharp/Cores/EasyMicroservices.UI.Cores.sln
       - name: Build
-        run: dotnet build ./src/CSharp/Cores/EasyMicroservices.UI.Core.sln --no-restore
+        run: dotnet build ./src/CSharp/Cores/EasyMicroservices.UI.Cores.sln --no-restore
       - name: Test
         run:  |
-          dotnet test ./src/CSharp/Cores/EasyMicroservices.UI.Core.sln --no-build --verbosity normal -f net7.0
+          dotnet test ./src/CSharp/Cores/EasyMicroservices.UI.Cores.sln --no-build --verbosity normal -f net7.0
