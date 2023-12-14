@@ -5,7 +5,7 @@
     <Platforms>AnyCPU;x64;x86</Platforms>
     <Authors>EasyMicroservices</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.0.7</Version>
+    <Version>0.0.0.8</Version>
     <Description>Model View View Model</Description>
     <Copyright>EasyMicroservices@gmail.com</Copyright>
     <PackageTags>mvvm,mvpvm,modelview,modelviewviewmodel</PackageTags>
@@ -17,7 +17,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EasyMicroservices.ServiceContracts" Version="0.0.0.19" />
+    <PackageReference Include="EasyMicroservices.Domain" Version="0.0.0.7" />
+    <PackageReference Include="EasyMicroservices.ServiceContracts" Version="0.0.0.21" />
   </ItemGroup>
 
 </Project>
