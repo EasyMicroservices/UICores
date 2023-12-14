@@ -26,6 +26,10 @@ public abstract class BaseViewModel : IBusyViewModel, INotifyPropertyChanged, ID
     /// 
     /// </summary>
     public static string CurrentApplicationLanguage { get; set; } = "fa-IR";
+    /// <summary>
+    /// 
+    /// </summary>
+    public static bool IsRightToLeft { get; set; } = false;
     static ConcurrentDictionary<string, List<LanguageContract>> Languages { get; set; } = new ConcurrentDictionary<string, List<LanguageContract>>();
     /// <summary>
     /// 
