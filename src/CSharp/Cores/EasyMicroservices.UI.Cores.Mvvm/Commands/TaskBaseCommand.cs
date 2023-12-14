@@ -8,7 +8,7 @@ namespace EasyMicroservices.UI.Cores.Commands
     /// <summary>
     /// 
     /// </summary>
-    public class TaskBaseCommand : ICommandAsync
+    public class TaskBaseCommand : IAsyncCommand
     {
         /// <summary>
         /// 

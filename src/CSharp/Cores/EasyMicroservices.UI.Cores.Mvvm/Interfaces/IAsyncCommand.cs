@@ -6,7 +6,7 @@ namespace EasyMicroservices.UI.Cores.Interfaces
     /// <summary>
     /// 
     /// </summary>
-    public interface ICommandAsync : ICommand
+    public interface IAsyncCommand : ICommand
     {
         /// <summary>
         /// 
