@@ -100,7 +100,16 @@ public abstract class BaseViewModel : IBusyViewModel, INotifyPropertyChanged, ID
             _IsBusy = value;
             OnBusyChanged?.Invoke(value);
             OnPropertyChanged(nameof(IsBusy));
+            OnPropertyChanged(nameof(IsNotBusy));
         }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public virtual bool IsNotBusy
+    {
+        get => !IsBusy;
     }
 
     /// <summary>
@@ -136,75 +145,6 @@ public abstract class BaseViewModel : IBusyViewModel, INotifyPropertyChanged, ID
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="TResult"></typeparam>
-    /// <param name="getServerResult"></param>
-    /// <param name="onSuccess"></param>
-    /// <param name="onError"></param>
-    /// <returns></returns>
-    public async virtual Task ExecuteApi<TResult>(Func<Task<object>> getServerResult, Func<TResult, Task> onSuccess, Func<Exception, Task> onError = default)
-    {
-        try
-        {
-            Busy();
-            var result = await getServerResult();
-
-            var response = result.ToContract<TResult>();
-
-            if (response.IsSuccess)
-                await onSuccess(response);
-            else
-                await DisplayFetchError(response.Error);
-        }
-        catch (Exception ex)
-        {
-            if (onError != null)
-                await onError(ex);
-            else
-                await DisplayError(ex.ToString());
-        }
-        finally
-        {
-            UnBusy();
-        }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="getServerResult"></param>
-    /// <param name="onSuccess"></param>
-    /// <param name="onError"></param>
-    /// <returns></returns>
-    public virtual async Task ExecuteApi(Func<Task<object>> getServerResult, Func<Task> onSuccess, Func<Exception, Task> onError = default)
-    {
-        try
-        {
-            Busy();
-            var result = await getServerResult();
-
-            var response = result.ToContract();
-
-            if (response.IsSuccess)
-                await onSuccess();
-            else
-                await DisplayFetchError(response.Error);
-        }
-        catch (Exception ex)
-        {
-            if (onError != null)
-                await onError(ex);
-            else
-                await DisplayError(ex.ToString());
-        }
-        finally
-        {
-            UnBusy();
-        }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
     /// <param name="exception"></param>
     /// <returns></returns>
     public virtual Task OnError(Exception exception)
@@ -217,7 +157,7 @@ public abstract class BaseViewModel : IBusyViewModel, INotifyPropertyChanged, ID
     /// </summary>
     /// <param name="errorContract"></param>
     /// <returns></returns>
-    public virtual Task DisplayFetchError(ErrorContract errorContract)
+    public virtual Task DisplayServerError(ErrorContract errorContract)
     {
         return Task.CompletedTask;
     }
