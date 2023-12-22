@@ -19,6 +19,11 @@ jobs:
             8.0.x
       - name: Install .NET MAUI workload
         run: dotnet workload install maui
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+            distribution: 'adopt'
+            java-version: '11'
       - name: Restore dependencies
         run: |
          dotnet restore ./src/CSharp/Cores/EasyMicroservices.UI.Cores.sln
