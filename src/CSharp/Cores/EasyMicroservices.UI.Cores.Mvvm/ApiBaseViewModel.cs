@@ -18,7 +18,7 @@ public class ApiBaseViewModel : BaseViewModel
     /// <param name="onSuccess"></param>
     /// <param name="onError"></param>
     /// <returns></returns>
-    public async virtual Task ExecuteApi<TResult>(Func<Task<object>> getServerResult, Func<TResult, Task> onSuccess, Func<Exception, Task> onError = default)
+    public async virtual Task ExecuteApi<TResult>(Func<Task<object>> getServerResult, Func<MessageContract<TResult>, Task> onSuccess, Func<Exception, Task> onError = default)
     {
         try
         {
@@ -52,7 +52,7 @@ public class ApiBaseViewModel : BaseViewModel
     /// <param name="onSuccess"></param>
     /// <param name="onError"></param>
     /// <returns></returns>
-    public virtual async Task ExecuteApi(Func<Task<object>> getServerResult, Func<Task> onSuccess, Func<Exception, Task> onError = default)
+    public virtual async Task ExecuteApi(Func<Task<object>> getServerResult, Func<Task> onSuccess = default, Func<Exception, Task> onError = default)
     {
         try
         {
@@ -62,7 +62,7 @@ public class ApiBaseViewModel : BaseViewModel
             var response = result.ToContract();
 
             if (response.IsSuccess)
-                await onSuccess();
+                await onSuccess?.Invoke();
             else
                 await DisplayServerError(response.Error);
         }

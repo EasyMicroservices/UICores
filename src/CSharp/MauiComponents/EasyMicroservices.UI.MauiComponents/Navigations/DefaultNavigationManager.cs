@@ -1,6 +1,6 @@
 ﻿using EasyMicroservices.UI.Cores;
 using EasyMicroservices.UI.Cores.Interfaces;
-using System.Collections.Concurrent;
+using EasyMicroservices.UI.Cores.Navigations;
 
 namespace EasyMicroservices.UI.MauiComponents.Navigations;
 public class DefaultNavigationManager : NavigationManagerBase
@@ -26,10 +26,12 @@ public class DefaultNavigationManager : NavigationManagerBase
         if (!Pages.TryGetValue(pageName, out Type pageTpe))
             throw new Exception($"Page {pageName} not found, did you register it?");
         var findPage = Activator.CreateInstance(pageTpe);
-        Page page = findPage as Page;
+        ContentPage page = findPage as ContentPage;
         if (page == null)
             throw new NotImplementedException($"Page {pageName} is not inherit Page!");
         var ipage = page as IPage;
+        if (page.BindingContext == null)
+            page.BindingContext = page.Content?.BindingContext;
         if (page.BindingContext is PageBaseViewModel pageBaseViewModel && ipage != null)
             pageBaseViewModel.Page = ipage;
         if (doClear)

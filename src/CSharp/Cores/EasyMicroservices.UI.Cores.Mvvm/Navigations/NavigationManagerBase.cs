@@ -4,7 +4,7 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace EasyMicroservices.UI.Cores;
+namespace EasyMicroservices.UI.Cores.Navigations;
 /// <summary>
 /// 
 /// </summary>
