@@ -1,4 +1,5 @@
 ﻿using EasyMicroservices.UI.Cores.Interfaces;
+using EasyMicroservices.UI.Cores.Navigations;
 using System;
 using System.Collections.Generic;
 using System.Text;
