@@ -17,7 +17,7 @@ public abstract class NavigationManagerBase
     /// <summary>
     /// 
     /// </summary>
-    protected ConcurrentDictionary<string, Type> Pages { get; set; } = new ConcurrentDictionary<string, Type>();
+    protected ConcurrentDictionary<string, Func<IPage>> Pages { get; set; } = new ConcurrentDictionary<string, Func<IPage>>();
 
     /// <summary>
     /// 
@@ -76,6 +76,6 @@ public abstract class NavigationManagerBase
     public void RegisterPage<T>(string pageName)
         where T : IPage, new()
     {
-        Pages.TryAdd(pageName, typeof(T));
+        Pages.TryAdd(pageName, () => new T());
     }
 }

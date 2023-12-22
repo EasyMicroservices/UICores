@@ -1,6 +1,7 @@
 ﻿using EasyMicroservices.UI.Cores;
 using EasyMicroservices.UI.Cores.Interfaces;
 using EasyMicroservices.UI.Cores.Navigations;
+using EasyMicroservices.UI.MauiComponents.Design.Pages;
 
 namespace EasyMicroservices.UI.MauiComponents.Navigations;
 public class DefaultNavigationManager : NavigationManagerBase
@@ -23,9 +24,9 @@ public class DefaultNavigationManager : NavigationManagerBase
 
     public override async Task<TResponseData> PushDataAsync<TData, TResponseData>(TData data, string pageName, bool doClear = false)
     {
-        if (!Pages.TryGetValue(pageName, out Type pageTpe))
+        if (!Pages.TryGetValue(pageName, out Func<IPage> pageCreator))
             throw new Exception($"Page {pageName} not found, did you register it?");
-        var findPage = Activator.CreateInstance(pageTpe);
+        var findPage = pageCreator();
         ContentPage page = findPage as ContentPage;
         if (page == null)
             throw new NotImplementedException($"Page {pageName} is not inherit Page!");
@@ -85,5 +86,21 @@ public class DefaultNavigationManager : NavigationManagerBase
     public override Task<bool> OpenBrowser(string url)
     {
         return Browser.OpenAsync(url, BrowserLaunchMode.SystemPreferred);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="pageName"></param>
+    public void RegisterContentPage<TView>(string pageName)
+        where TView : ContentView, new()
+    {
+        Pages.TryAdd(pageName, () =>
+        {
+            return new EasyContentPage()
+            {
+                Content = new TView()
+            };
+        });
     }
 }
