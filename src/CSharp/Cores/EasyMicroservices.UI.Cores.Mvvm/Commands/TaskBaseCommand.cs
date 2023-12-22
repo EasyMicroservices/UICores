@@ -87,7 +87,7 @@ namespace EasyMicroservices.UI.Cores.Commands
             }
             catch (InvalidResultOfMessageContractException ex)
             {
-                _busyViewModel?.DisplayFetchError(ex.MessageContract.Error);
+                _busyViewModel?.DisplayServerError(ex.MessageContract.Error);
             }
             catch (Exception ex)
             {
