@@ -15,6 +15,15 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+    <Platforms>AnyCPU;x64;x86</Platforms>
+    <Authors>EasyMicroservices</Authors>
+    <IsPackable>true</IsPackable>
+    <Version>0.0.0.1</Version>
+    <Description>Maui easy and light components</Description>
+    <Copyright>EasyMicroservices@gmail.com</Copyright>
+    <PackageTags>maui,ui,component,components</PackageTags>
+    <PackageProjectUrl>https://github.com/EasyMicroservices/UICores</PackageProjectUrl>
+    <LangVersion>latest</LangVersion>
 	</PropertyGroup>
   
   <ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
