@@ -11,7 +11,6 @@ public class DefaultNavigationManager : NavigationManagerBase
         _navigation = navigation;
     }
 
-    ConcurrentDictionary<string, IPage> Pages { get; set; } = new ConcurrentDictionary<string, IPage>();
     public override Task PopAsync()
     {
         return _navigation.PopAsync();
@@ -24,8 +23,9 @@ public class DefaultNavigationManager : NavigationManagerBase
 
     public override async Task<TResponseData> PushDataAsync<TData, TResponseData>(TData data, string pageName, bool doClear = false)
     {
-        if (!Pages.TryGetValue(pageName, out IPage findPage))
+        if (!Pages.TryGetValue(pageName, out Type pageTpe))
             throw new Exception($"Page {pageName} not found, did you register it?");
+        var findPage = Activator.CreateInstance(pageTpe);
         Page page = findPage as Page;
         if (page == null)
             throw new NotImplementedException($"Page {pageName} is not inherit Page!");

@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using EasyMicroservices.UI.Cores.Interfaces;
+using System;
+using System.Collections.Concurrent;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace EasyMicroservices.UI.Cores;
@@ -11,6 +14,10 @@ public abstract class NavigationManagerBase
     /// 
     /// </summary>
     public static NavigationManagerBase Current { get; set; }
+    /// <summary>
+    /// 
+    /// </summary>
+    protected ConcurrentDictionary<string, Type> Pages { get; set; } = new ConcurrentDictionary<string, Type>();
 
     /// <summary>
     /// 
@@ -62,4 +69,13 @@ public abstract class NavigationManagerBase
     /// <param name="url"></param>
     /// <returns></returns>
     public abstract Task<bool> OpenBrowser(string url);
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="pageName"></param>
+    public void RegisterPage<T>(string pageName)
+        where T : IPage, new()
+    {
+        Pages.TryAdd(pageName, typeof(T));
+    }
 }
