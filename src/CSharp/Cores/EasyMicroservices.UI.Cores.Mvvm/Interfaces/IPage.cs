@@ -16,7 +16,7 @@ public interface IPage
     /// <summary>
     /// 
     /// </summary>
-    Action OnBackBottonPresssed { get; set; }
+    Action OnBackButtonPressedAction { get; set; }
     /// <summary>
     /// 
     /// </summary>
