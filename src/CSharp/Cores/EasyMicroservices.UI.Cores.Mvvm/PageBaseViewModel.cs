@@ -43,7 +43,7 @@ public class PageBaseViewModel : ApiBaseViewModel
     /// <param name="destruction"></param>
     /// <param name="buttons"></param>
     /// <returns></returns>
-    public async Task<(bool IsSelected, string SelectedItem)> DisplayActionSheet(string title, string cancel, string destruction, params string[] buttons)
+    public virtual async Task<(bool IsSelected, string SelectedItem)> DisplayActionSheet(string title, string cancel, string destruction, params string[] buttons)
     {
         var res = await Page.DisplayActionSheet(title, cancel, destruction, buttons);
         if (buttons != null && buttons.Contains(res))
@@ -58,7 +58,7 @@ public class PageBaseViewModel : ApiBaseViewModel
     /// <param name="title"></param>
     /// <param name="skipItems"></param>
     /// <returns></returns>
-    public async Task<(bool IsSelected, TEnum SelectedItem)> DisplayEnumActionSheet<TEnum>(string title, params string[] skipItems)
+    public virtual async Task<(bool IsSelected, TEnum SelectedItem)> DisplayEnumActionSheet<TEnum>(string title, params string[] skipItems)
         where TEnum : struct, Enum
     {
         var unusedEnums = new string[]
@@ -82,7 +82,7 @@ public class PageBaseViewModel : ApiBaseViewModel
     /// <param name="message"></param>
     /// <param name="cancel"></param>
     /// <returns></returns>
-    public Task DisplayAlert(string title, string message, string cancel)
+    public virtual Task DisplayAlert(string title, string message, string cancel)
     {
         return Page.DisplayAlert(title, message, cancel);
     }
@@ -95,7 +95,7 @@ public class PageBaseViewModel : ApiBaseViewModel
     /// <param name="accept"></param>
     /// <param name="cancel"></param>
     /// <returns></returns>
-    public Task<bool> DisplayQuestion(string title, string message, string accept = "Yes", string cancel = "No")
+    public virtual Task<bool> DisplayQuestion(string title, string message, string accept = "Yes", string cancel = "No")
     {
         return Page.DisplayAlert(title, message, accept, cancel);
     }
@@ -106,7 +106,7 @@ public class PageBaseViewModel : ApiBaseViewModel
     /// <param name="title"></param>
     /// <param name="message"></param>
     /// <returns></returns>
-    public Task<string> DisplayPrompt(string title, string message)
+    public virtual Task<string> DisplayPrompt(string title, string message)
     {
         return Page.DisplayPrompt(title, message);
     }
@@ -146,7 +146,7 @@ public class PageBaseViewModel : ApiBaseViewModel
     /// </summary>
     /// <param name="message"></param>
     /// <returns></returns>
-    public Task DisplayValidationAlert(string message)
+    public virtual Task DisplayValidationAlert(string message)
     {
         return Page.DisplayAlert("Data is not valid", message, "Ok");
     }
