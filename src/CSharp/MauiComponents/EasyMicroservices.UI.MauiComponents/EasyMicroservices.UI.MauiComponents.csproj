@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net7.0-android;net7.0-ios;net7.0-maccatalyst;net8.0-android;net8.0-ios;net8.0-maccatalyst;</TargetFrameworks>
+		<TargetFrameworks>net8.0;net7.0-android;net7.0-ios;net7.0-maccatalyst;net8.0-android;net8.0-ios;net8.0-maccatalyst;</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-windows10.0.19041.0;net8.0-windows10.0.19041.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
@@ -18,7 +18,7 @@
     <Platforms>AnyCPU;x64;x86</Platforms>
     <Authors>EasyMicroservices</Authors>
     <IsPackable>true</IsPackable>
-    <Version>0.0.0.11</Version>
+    <Version>0.0.0.12</Version>
     <Description>Maui easy and light components</Description>
     <Copyright>EasyMicroservices@gmail.com</Copyright>
     <PackageTags>maui,ui,component,components</PackageTags>
