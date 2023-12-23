@@ -43,7 +43,7 @@ public class DefaultNavigationManager : NavigationManagerBase
         if (page.BindingContext is IResponsibleViewModel responsibleViewModel)
         {
             if (ipage != null)
-                ipage.OnBackBottonPresssed = responsibleViewModel.Close;
+                ipage.OnBackButtonPressedAction = responsibleViewModel.Close;
             var result = await responsibleViewModel.GetResult();
             if (result != null && result is TResponseData responseData)
                 return responseData;
