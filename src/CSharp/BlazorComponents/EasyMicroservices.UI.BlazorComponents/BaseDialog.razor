@@ -1,0 +1,101 @@
+﻿@using EasyMicroservices.UI.Cores
+@using MudBlazor
+@inject BaseViewModel viewModel;
+@* Class="@DialogClass" *@
+<MudRTLProvider RightToLeft="BaseViewModel.IsRightToLeft">
+    <MudDialog @ref="dialog" @bind-IsVisible="IsShowDialog">
+        <TitleContent>
+            @TitleContent
+        </TitleContent>
+        <DialogContent>
+            @DialogContent
+        </DialogContent>
+        <DialogActions>
+            @DialogActions
+        </DialogActions>
+    </MudDialog>
+</MudRTLProvider>
+
+<style>
+    .dialog-background-class {
+        backdrop-filter: blur(10px);
+    }
+</style>
+
+@code {
+    public BaseViewModel ViewModel
+    {
+        get
+        {
+            return viewModel;
+        }
+    }
+    bool IsShowDialog;
+    MudDialog dialog;
+
+    [Parameter]
+    [Category("Behavior")]
+    public RenderFragment TitleContent { get; set; }
+
+    [Parameter]
+    [Category("Behavior")]
+    public RenderFragment DialogContent { get; set; }
+
+    [Parameter]
+    [Category("Behavior")]
+    public RenderFragment DialogActions { get; set; }
+
+    DialogOptions DialogOptions = new DialogOptions()
+    {
+        ClassBackground = "dialog-background-class",
+        CloseOnEscapeKey = true,
+        MaxWidth = MaxWidth.ExtraSmall
+    };
+
+    Func<Task> _onAfterLoadAsync;
+    bool IsNeedToShow = false;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (IsNeedToShow)
+        {
+            _ = Task.Run(async () =>
+            {
+                await Task.Delay(500);
+                await _onAfterLoadAsync?.Invoke();
+            });
+            IsNeedToShow = false;
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+    }
+
+    public void ShowDialog(Action onAfterLoad = default)
+    {
+        if (onAfterLoad != null)
+        {
+            _onAfterLoadAsync = () =>
+            {
+                onAfterLoad();
+                return Task.CompletedTask;
+            };
+        }
+        IsNeedToShow = true;
+        IsShowDialog = true;
+    }
+
+    public void ShowDialog(Func<Task> onAfterLoad)
+    {
+        _onAfterLoadAsync = onAfterLoad;
+        IsNeedToShow = true;
+        IsShowDialog = true;
+    }
+
+    public void CloseDialog()
+    {
+        IsShowDialog = false;
+    }
+}
