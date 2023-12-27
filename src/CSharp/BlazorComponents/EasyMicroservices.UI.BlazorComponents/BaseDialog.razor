@@ -1,8 +1,8 @@
 ﻿@using EasyMicroservices.UI.Cores
 @using MudBlazor
-@inject BaseViewModel viewModel;
+@inject DialogBaseViewModel viewModel;
 @* Class="@DialogClass" *@
-<MudRTLProvider RightToLeft="BaseViewModel.IsRightToLeft">
+<MudRTLProvider RightToLeft="DialogBaseViewModel.IsRightToLeft">
     <MudDialog @ref="dialog" @bind-IsVisible="IsShowDialog">
         <TitleContent>
             @TitleContent
@@ -23,7 +23,7 @@
 </style>
 
 @code {
-    public BaseViewModel ViewModel
+    public DialogBaseViewModel ViewModel
     {
         get
         {
