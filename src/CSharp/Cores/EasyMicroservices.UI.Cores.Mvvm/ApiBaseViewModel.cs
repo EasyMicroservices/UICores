@@ -12,10 +12,6 @@ public class ApiBaseViewModel : BaseViewModel
     /// <summary>
     /// 
     /// </summary>
-    public static Func<ErrorContract, Task<bool>> OnGlobalServiceErrorHandler { get; set; }
-    /// <summary>
-    /// 
-    /// </summary>
     /// <typeparam name="TResult"></typeparam>
     /// <param name="getServerResult"></param>
     /// <param name="onSuccess"></param>
@@ -33,7 +29,7 @@ public class ApiBaseViewModel : BaseViewModel
             if (response.IsSuccess)
                 await onSuccess(response);
             else
-                await InternalDisplayServerError(response.Error);
+                await OnServerErrorHandling(response.Error);
         }
         catch (Exception ex)
         {
@@ -67,7 +63,7 @@ public class ApiBaseViewModel : BaseViewModel
             if (response.IsSuccess)
                 await onSuccess?.Invoke();
             else
-                await InternalDisplayServerError(response.Error);
+                await OnServerErrorHandling(response.Error);
         }
         catch (Exception ex)
         {
@@ -80,11 +76,5 @@ public class ApiBaseViewModel : BaseViewModel
         {
             UnBusy();
         }
-    }
-
-    async Task InternalDisplayServerError(ErrorContract error)
-    {
-        if (OnGlobalServiceErrorHandler == null || !await OnGlobalServiceErrorHandler(error))
-            await OnServerError(error);
     }
 }

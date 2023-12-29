@@ -86,7 +86,7 @@ public abstract class BaseCommand : ICommand
         }
         catch (InvalidResultOfMessageContractException ex)
         {
-            _busyViewModel?.OnServerError(ex.MessageContract.Error);
+            _busyViewModel?.OnServerErrorHandling(ex.MessageContract.Error);
         }
         catch (Exception ex)
         {

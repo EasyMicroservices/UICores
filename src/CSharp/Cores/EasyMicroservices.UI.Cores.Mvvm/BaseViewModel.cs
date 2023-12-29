@@ -18,6 +18,10 @@ public abstract class BaseViewModel : IBusyViewModel, INotifyPropertyChanged, ID
     /// <summary>
     /// 
     /// </summary>
+    public static Func<ErrorContract, Task<bool>> OnGlobalServiceErrorHandler { get; set; }
+    /// <summary>
+    /// 
+    /// </summary>
     public BaseViewModel()
     {
         PropertyChanged += BaseViewModel_PropertyChanged;
@@ -160,6 +164,17 @@ public abstract class BaseViewModel : IBusyViewModel, INotifyPropertyChanged, ID
     public virtual Task OnServerError(ErrorContract errorContract)
     {
         return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="error"></param>
+    /// <returns></returns>
+    public virtual async Task OnServerErrorHandling(ErrorContract error)
+    {
+        if (OnGlobalServiceErrorHandler == null || !await OnGlobalServiceErrorHandler(error))
+            await OnServerError(error);
     }
 
     /// <summary>
