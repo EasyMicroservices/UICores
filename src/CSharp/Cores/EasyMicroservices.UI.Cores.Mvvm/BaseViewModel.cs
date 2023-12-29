@@ -157,7 +157,7 @@ public abstract class BaseViewModel : IBusyViewModel, INotifyPropertyChanged, ID
     /// </summary>
     /// <param name="errorContract"></param>
     /// <returns></returns>
-    public virtual Task DisplayServerError(ErrorContract errorContract)
+    public virtual Task OnServerError(ErrorContract errorContract)
     {
         return Task.CompletedTask;
     }

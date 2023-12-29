@@ -21,7 +21,7 @@ public class ApiBaseViewModel : BaseViewModel
     /// <param name="onSuccess"></param>
     /// <param name="onError"></param>
     /// <returns></returns>
-    public async virtual Task ExecuteApi<TResult>(Func<Task<object>> getServerResult, Func<MessageContract<TResult>, Task> onSuccess, Func<Exception, Task> onError = default)
+    public async virtual Task ExecuteApi<TResult>(Func<Task<TResult>> getServerResult, Func<MessageContract<TResult>, Task> onSuccess, Func<ErrorContract, Task> onError = default)
     {
         try
         {
@@ -55,7 +55,7 @@ public class ApiBaseViewModel : BaseViewModel
     /// <param name="onSuccess"></param>
     /// <param name="onError"></param>
     /// <returns></returns>
-    public virtual async Task ExecuteApi(Func<Task<object>> getServerResult, Func<Task> onSuccess = default, Func<Exception, Task> onError = default)
+    public virtual async Task ExecuteApi(Func<Task<object>> getServerResult, Func<Task> onSuccess = default, Func<ErrorContract, Task> onError = default)
     {
         try
         {
@@ -85,6 +85,6 @@ public class ApiBaseViewModel : BaseViewModel
     async Task InternalDisplayServerError(ErrorContract error)
     {
         if (OnGlobalServiceErrorHandler == null || !await OnGlobalServiceErrorHandler(error))
-            await DisplayServerError(error);
+            await OnServerError(error);
     }
 }
