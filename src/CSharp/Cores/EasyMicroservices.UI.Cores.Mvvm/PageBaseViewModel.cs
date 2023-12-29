@@ -136,7 +136,7 @@ public class PageBaseViewModel : ApiBaseViewModel
     /// </summary>
     /// <param name="errorContract"></param>
     /// <returns></returns>
-    public override Task DisplayServerError(ErrorContract errorContract)
+    public override Task OnServerError(ErrorContract errorContract)
     {
         return Page.DisplayAlert("Server Error", $"{errorContract?.FailedReasonType}{Environment.NewLine}{errorContract?.Message}{Environment.NewLine}{errorContract?.Details}{Environment.NewLine}{errorContract?.StackTrace}", "Ok");
     }

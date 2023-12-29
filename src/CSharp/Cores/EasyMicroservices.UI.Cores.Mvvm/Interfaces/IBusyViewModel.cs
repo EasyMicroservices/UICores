@@ -40,7 +40,7 @@ namespace EasyMicroservices.UI.Cores.Interfaces
         /// </summary>
         /// <param name="errorContract"></param>
         /// <returns></returns>
-        Task DisplayServerError(ErrorContract errorContract);
+        Task OnServerError(ErrorContract errorContract);
 
         /// <summary>
         /// 
