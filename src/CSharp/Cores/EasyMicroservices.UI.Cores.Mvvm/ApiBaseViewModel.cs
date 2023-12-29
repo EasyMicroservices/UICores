@@ -12,7 +12,7 @@ public class ApiBaseViewModel : BaseViewModel
     /// <summary>
     /// 
     /// </summary>
-    public static Func<ErrorContract, Task<bool>> OnExceptionHandler { get; set; }
+    public static Func<ErrorContract, Task<bool>> OnGlobalServiceErrorHandler { get; set; }
     /// <summary>
     /// 
     /// </summary>
@@ -84,7 +84,7 @@ public class ApiBaseViewModel : BaseViewModel
 
     async Task InternalDisplayServerError(ErrorContract error)
     {
-        if (OnExceptionHandler == null || !await OnExceptionHandler(error))
+        if (OnGlobalServiceErrorHandler == null || !await OnGlobalServiceErrorHandler(error))
             await DisplayServerError(error);
     }
 }
