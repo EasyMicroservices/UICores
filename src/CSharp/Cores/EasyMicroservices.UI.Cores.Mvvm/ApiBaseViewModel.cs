@@ -12,7 +12,7 @@ public class ApiBaseViewModel : BaseViewModel
     /// <summary>
     /// 
     /// </summary>
-    public Func<ErrorContract,Task<bool>> OnExceptionHandler { get; set; }
+    public static Func<ErrorContract, Task<bool>> OnExceptionHandler { get; set; }
     /// <summary>
     /// 
     /// </summary>
