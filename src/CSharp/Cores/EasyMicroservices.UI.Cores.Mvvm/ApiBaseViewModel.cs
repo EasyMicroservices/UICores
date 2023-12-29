@@ -9,7 +9,10 @@ namespace EasyMicroservices.UI.Cores;
 /// </summary>
 public class ApiBaseViewModel : BaseViewModel
 {
-
+    /// <summary>
+    /// 
+    /// </summary>
+    public Func<ErrorContract,Task<bool>> OnExceptionHandler { get; set; }
     /// <summary>
     /// 
     /// </summary>
@@ -30,7 +33,7 @@ public class ApiBaseViewModel : BaseViewModel
             if (response.IsSuccess)
                 await onSuccess(response);
             else
-                await DisplayServerError(response.Error);
+                await InternalDisplayServerError(response.Error);
         }
         catch (Exception ex)
         {
@@ -64,7 +67,7 @@ public class ApiBaseViewModel : BaseViewModel
             if (response.IsSuccess)
                 await onSuccess?.Invoke();
             else
-                await DisplayServerError(response.Error);
+                await InternalDisplayServerError(response.Error);
         }
         catch (Exception ex)
         {
@@ -77,5 +80,11 @@ public class ApiBaseViewModel : BaseViewModel
         {
             UnBusy();
         }
+    }
+
+    async Task InternalDisplayServerError(ErrorContract error)
+    {
+        if (OnExceptionHandler == null || !await OnExceptionHandler(error))
+            await DisplayServerError(error);
     }
 }
