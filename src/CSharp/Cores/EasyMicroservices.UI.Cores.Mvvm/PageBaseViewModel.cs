@@ -71,7 +71,7 @@ public class PageBaseViewModel : ApiBaseViewModel
         items = items.Where(x => !unusedEnums.Contains(x)).ToArray();
         var res = await Page.DisplayActionSheet(title, "Close", null, items);
         if (items.Contains(res))
-            return (true, (TEnum)Enum.Parse(typeof(TEnum),res));
+            return (true, (TEnum)Enum.Parse(typeof(TEnum), res));
         return (false, default);
     }
 
