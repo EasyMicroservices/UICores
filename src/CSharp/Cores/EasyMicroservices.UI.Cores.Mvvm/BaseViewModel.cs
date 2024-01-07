@@ -18,14 +18,17 @@ public abstract class BaseViewModel : IBusyViewModel, INotifyPropertyChanged, ID
     /// <summary>
     /// 
     /// </summary>
-    public static Func<ErrorContract, Task<bool>> OnGlobalServiceErrorHandler { get; set; }
-    /// <summary>
-    /// 
-    /// </summary>
     public BaseViewModel()
     {
         PropertyChanged += BaseViewModel_PropertyChanged;
     }
+
+    ConcurrentDictionary<string, Action> BindSpecifiedProperyChanged { get; set; } = new ConcurrentDictionary<string, Action>();
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public static Func<ErrorContract, Task<bool>> OnGlobalServiceErrorHandler { get; set; }
     /// <summary>
     /// 
     /// </summary>
@@ -57,6 +60,20 @@ public abstract class BaseViewModel : IBusyViewModel, INotifyPropertyChanged, ID
         {
             Languages[key] = new List<LanguageContract>(languages);
         }
+    }
+
+    /// <summary>
+    /// add value to current language
+    /// </summary>
+    /// <param name="key"></param>
+    /// <param name="languageValue"></param>
+    public static void AppendLanguage(string key, string languageValue)
+    {
+        AppendLanguage(key, new LanguageContract()
+        {
+            ShortName = CurrentApplicationLanguage,
+            Value = languageValue
+        });
     }
 
     /// <summary>
@@ -196,9 +213,23 @@ public abstract class BaseViewModel : IBusyViewModel, INotifyPropertyChanged, ID
         _OnBindPropertyChanged = action;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="propertyName"></param>
+    /// <param name="action"></param>
+    public void BindSpecifiedPropertyChanged(string propertyName, Action action)
+    {
+        BindSpecifiedProperyChanged[propertyName] = action;
+    }
+
     private void BaseViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         _OnBindPropertyChanged?.Invoke();
+        if (BindSpecifiedProperyChanged.TryGetValue(e.PropertyName, out Action action))
+        {
+            action();
+        }
     }
 
     /// <summary>
