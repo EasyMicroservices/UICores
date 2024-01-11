@@ -1,0 +1,95 @@
+﻿@page "/"
+@using EasyMicroservices.ServiceContracts
+@using MudBlazor;
+@using EasyMicroservices.UI.BlazorComponents;
+@using EasyMicroservices.UI.BlazorComponents.UITests.Models
+
+<MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
+    <MudTabPanel Text="Delete">
+        <MudButton OnClick="OnDelete" Color="Color.Error" Variant="Variant.Filled">
+            Delete
+        </MudButton>
+    </MudTabPanel>
+    <MudTabPanel Text="Async Delete">
+        <MudButton OnClick="OnDeleteAsync" Color="Color.Error" Variant="Variant.Filled">
+            Delete
+        </MudButton>
+    </MudTabPanel>
+    <MudTabPanel Text="Save">
+        <MudButton OnClick="OnSave" Color="Color.Success" Variant="Variant.Filled">
+            Add
+        </MudButton>
+    </MudTabPanel>
+    <MudTabPanel Text="Async Save">
+        <MudButton OnClick="OnSaveAsync" Color="Color.Success" Variant="Variant.Filled">
+            Update
+        </MudButton>
+    </MudTabPanel>
+</MudTabs>
+
+<DeleteBaseDialog @ref="deleteDialog" SuccessMessage="Success" TItem="TestDeleteModel"></DeleteBaseDialog>
+<SaveChangeBaseDialog @ref="saveDialog" SuccessMessage="Success Saved" TItem="TestDeleteModel">
+    <DialogContent>
+        <MudStack>
+            <MudText>this is content of saving</MudText>
+        </MudStack>
+    </DialogContent>
+</SaveChangeBaseDialog>
+@code {
+    DeleteBaseDialog<TestDeleteModel> deleteDialog;
+    SaveChangeBaseDialog<TestDeleteModel> saveDialog;
+
+    bool hasError = true;
+    void OnDelete()
+    {
+        deleteDialog.BindViewModel = new DialogBaseViewModel();
+        deleteDialog.ShowDeleteDialog(new TestDeleteModel() { Name = "Ali" }, (item) =>
+        {
+            hasError = !hasError;
+            if (hasError)
+                return (FailedReasonType.AccessDenied, "Example Access Denied!");
+            else
+                return true;
+        });
+    }
+
+    void OnDeleteAsync()
+    {
+        deleteDialog.BindViewModel = new DialogBaseViewModel();
+        deleteDialog.ShowDeleteDialogAsync(new TestDeleteModel() { Name = "Ali Async" }, async (item) =>
+        {
+            await Task.Delay(3000);
+            hasError = !hasError;
+            if (hasError)
+                return (FailedReasonType.AccessDenied, "Example Access Denied!");
+            else
+                return true;
+        });
+    }
+
+    void OnSave()
+    {
+        saveDialog.BindViewModel = new DialogBaseViewModel();
+        saveDialog.ShowSaveDialog(new TestDeleteModel() { Name = "Ali" }, (item) =>
+        {
+            hasError = !hasError;
+            if (hasError)
+                return (FailedReasonType.AccessDenied, "Example Access Denied!");
+            else
+                return true;
+        });
+    }
+    void OnSaveAsync()
+    {
+        saveDialog.BindViewModel = new DialogBaseViewModel();
+        saveDialog.ShowSaveDialogAsync(new TestDeleteModel() { Name = "Ali" }, async (item) =>
+        {
+            await Task.Delay(3000);
+            hasError = !hasError;
+            if (hasError)
+                return (FailedReasonType.AccessDenied, "Example Access Denied!");
+            else
+                return true;
+        });
+    }
+}

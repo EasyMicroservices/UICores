@@ -4,7 +4,7 @@
     <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
     <Authors>EasyMicroservices</Authors>
     <IsPackable>true</IsPackable>
-    <Version>0.0.0.20</Version>
+    <Version>0.0.0.21</Version>
     <Description>Core UI compoents.</Description>
     <Copyright>EasyMicroservices@gmail.com</Copyright>
     <PackageTags>component,microcomponent,ui,core</PackageTags>
@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MudBlazor" Version="6.11.2" />
+    <PackageReference Include="MudBlazor" Version="6.12.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
@@ -32,5 +32,5 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Cores\EasyMicroservices.UI.Cores.Mvvm\EasyMicroservices.UI.Cores.Mvvm.csproj" />
   </ItemGroup>
-
+  
 </Project>
