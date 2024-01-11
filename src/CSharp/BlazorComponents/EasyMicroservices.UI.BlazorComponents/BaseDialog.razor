@@ -85,6 +85,7 @@
         }
         IsNeedToShow = true;
         IsShowDialog = true;
+        dialog.Show();
     }
 
     public void ShowDialog(Func<Task> onAfterLoad)
@@ -92,10 +93,12 @@
         _onAfterLoadAsync = onAfterLoad;
         IsNeedToShow = true;
         IsShowDialog = true;
+        dialog.Show();
     }
 
     public void CloseDialog()
     {
         IsShowDialog = false;
+        dialog.Close();
     }
 }
