@@ -67,6 +67,16 @@
         DoSave();
     }
 
+    Func<Task> _onAfterLoadAsync;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        _ = Task.Run(async () =>
+        {
+            await Task.Delay(200);
+            await _onAfterLoadAsync?.Invoke();
+        });
+    }
     async void DoSave()
     {
         try
@@ -104,15 +114,30 @@
         }
     }
 
-    public void ShowSaveDialog(TItem item, Func<TItem, MessageContract> onSave)
+    public void ShowSaveDialog(TItem item, Func<TItem, MessageContract> onSave, Action onAfterLoad = null)
     {
+        if (onAfterLoad != null)
+        {
+            _onAfterLoadAsync = () =>
+            {
+                onAfterLoad();
+                return Task.CompletedTask;
+            };
+        }
         OnSaveAsync = null;
         OnSave = onSave;
         ShowSaveDialog(item);
     }
 
-    public void ShowSaveDialogAsync(TItem item, Func<TItem, Task<MessageContract>> onSaveAsync)
+    public void ShowSaveDialogAsync(TItem item, Func<TItem, Task<MessageContract>> onSaveAsync, Func<Task> onAfterLoad = null)
     {
+        if (onAfterLoad != null)
+        {
+            _onAfterLoadAsync = async () =>
+            {
+                await onAfterLoad();
+            };
+        }
         OnSave = null;
         OnSaveAsync = onSaveAsync;
         ShowSaveDialog(item);

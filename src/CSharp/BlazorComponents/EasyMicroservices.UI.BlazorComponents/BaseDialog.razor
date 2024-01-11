@@ -61,7 +61,7 @@
         {
             _ = Task.Run(async () =>
             {
-                await Task.Delay(500);
+                await Task.Delay(200);
                 await _onAfterLoadAsync?.Invoke();
             });
             IsNeedToShow = false;
