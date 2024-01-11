@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{13E6A614-284
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyMicroservices.UI.Cores.Mvvm", "..\Cores\EasyMicroservices.UI.Cores.Mvvm\EasyMicroservices.UI.Cores.Mvvm.csproj", "{CCEEDCC5-B976-4B0B-A293-7D91B893612D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyMicroservices.UI.BlazorComponents.UITests", "EasyMicroservices.UI.BlazorComponents.UITests\EasyMicroservices.UI.BlazorComponents.UITests.csproj", "{A1612717-15E7-41FF-ADAB-AC7AFD4F5E6C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,12 +45,25 @@ Global
 		{CCEEDCC5-B976-4B0B-A293-7D91B893612D}.Release|x64.Build.0 = Release|x64
 		{CCEEDCC5-B976-4B0B-A293-7D91B893612D}.Release|x86.ActiveCfg = Release|x86
 		{CCEEDCC5-B976-4B0B-A293-7D91B893612D}.Release|x86.Build.0 = Release|x86
+		{A1612717-15E7-41FF-ADAB-AC7AFD4F5E6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1612717-15E7-41FF-ADAB-AC7AFD4F5E6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1612717-15E7-41FF-ADAB-AC7AFD4F5E6C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A1612717-15E7-41FF-ADAB-AC7AFD4F5E6C}.Debug|x64.Build.0 = Debug|Any CPU
+		{A1612717-15E7-41FF-ADAB-AC7AFD4F5E6C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A1612717-15E7-41FF-ADAB-AC7AFD4F5E6C}.Debug|x86.Build.0 = Debug|Any CPU
+		{A1612717-15E7-41FF-ADAB-AC7AFD4F5E6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1612717-15E7-41FF-ADAB-AC7AFD4F5E6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1612717-15E7-41FF-ADAB-AC7AFD4F5E6C}.Release|x64.ActiveCfg = Release|Any CPU
+		{A1612717-15E7-41FF-ADAB-AC7AFD4F5E6C}.Release|x64.Build.0 = Release|Any CPU
+		{A1612717-15E7-41FF-ADAB-AC7AFD4F5E6C}.Release|x86.ActiveCfg = Release|Any CPU
+		{A1612717-15E7-41FF-ADAB-AC7AFD4F5E6C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{86DEB4A1-E776-461D-9C09-B0484799E6FA} = {13E6A614-2843-4B9B-A175-7C6D66E141E0}
+		{A1612717-15E7-41FF-ADAB-AC7AFD4F5E6C} = {13E6A614-2843-4B9B-A175-7C6D66E141E0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {06F00B56-54D5-4A4D-957D-24527B0347ED}
