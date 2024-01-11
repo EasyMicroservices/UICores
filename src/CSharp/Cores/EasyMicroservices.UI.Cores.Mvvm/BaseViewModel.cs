@@ -82,7 +82,7 @@ public abstract class BaseViewModel : IBusyViewModel, INotifyPropertyChanged, ID
     /// <param name="key"></param>
     /// <param name="languageShortName"></param>
     /// <returns></returns>
-    public string GetLanguage(string key, string languageShortName)
+    public static string GetTranslatedByKey(string key, string languageShortName)
     {
         if (Languages.TryGetValue(key, out List<LanguageContract> items))
         {
@@ -97,10 +97,31 @@ public abstract class BaseViewModel : IBusyViewModel, INotifyPropertyChanged, ID
     /// 
     /// </summary>
     /// <param name="key"></param>
+    /// <param name="languageShortName"></param>
     /// <returns></returns>
-    public string GetLanguage(string key)
+    public string GetInnerTranslatedByKey(string key, string languageShortName)
     {
-        return GetLanguage(key, CurrentApplicationLanguage);
+        return GetTranslatedByKey(key, languageShortName);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="key"></param>
+    /// <returns></returns>
+    public static string GetTranslatedByKey(string key)
+    {
+        return GetTranslatedByKey(key, CurrentApplicationLanguage);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="key"></param>
+    /// <returns></returns>
+    public string GetInnerTranslatedByKey(string key)
+    {
+        return GetTranslatedByKey(key, CurrentApplicationLanguage);
     }
 
     /// <summary>

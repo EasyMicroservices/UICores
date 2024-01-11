@@ -1,0 +1,137 @@
+﻿@using EasyMicroservices.ServiceContracts
+@using EasyMicroservices.UI.Cores
+@using MudBlazor
+@inject ISnackbar Snackbar
+
+@typeparam TItem
+
+<BaseDialog @ref="saveDialog">
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.Edit" Class="mr-3" /> @BindViewModel.GetInnerTranslatedByKey("SaveDialog_Title")
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        @DialogContent
+    </DialogContent>
+    <DialogActions>
+        @if (!BindViewModel.IsBusy)
+        {
+            <MudButton OnClick="() => saveDialog.CloseDialog()">
+                @BindViewModel.GetInnerTranslatedByKey("Cancel")
+            </MudButton>
+        }
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" Disabled="BindViewModel.IsBusy" OnClick="()=>Save()">
+            @if (BindViewModel.IsBusy)
+            {
+                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                <MudText Class="ms-2">@BindViewModel.GetInnerTranslatedByKey("Saving")</MudText>
+            }
+            else
+            {
+                <MudText>@BindViewModel.GetInnerTranslatedByKey("Save")</MudText>
+            }
+        </MudButton>
+    </DialogActions>
+</BaseDialog>
+
+@code {
+    BaseDialog saveDialog;
+
+    TItem selectedItem;
+
+    [Parameter]
+    [Category("Behavior")]
+    public string SuccessMessage { get; set; }
+
+    [Parameter]
+    [Category("Behavior")]
+    public BaseViewModel BindViewModel { get; set; }
+
+    [Parameter]
+    [Category("Behavior")]
+    public RenderFragment DialogContent { get; set; }
+
+    [Parameter]
+    [Category("Behavior")]
+    public Func<TItem, Task<MessageContract>> OnSaveAsync { get; set; }
+
+    [Parameter]
+    [Category("Behavior")]
+    public Func<TItem, MessageContract> OnSave { get; set; }
+
+
+    void Save()
+    {
+        BindViewModel.IsBusy = true;
+        DoSave();
+    }
+
+    async void DoSave()
+    {
+        try
+        {
+            if (OnSave != null)
+            {
+                var result = OnSave.Invoke(selectedItem);
+                if (result)
+                    ShowSucess();
+                else
+                {
+                    ShowError(result.Error);
+                }
+            }
+
+            if (OnSaveAsync != null)
+            {
+                var result = await OnSaveAsync.Invoke(selectedItem);
+                if (result)
+                    ShowSucess();
+                else
+                {
+                    ShowError(result.Error);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            ShowError(ex);
+        }
+        finally
+        {
+            BindViewModel.IsBusy = false;
+            StateHasChanged();
+        }
+    }
+
+    public void ShowSaveDialog(TItem item, Func<TItem, MessageContract> onSave)
+    {
+        OnSaveAsync = null;
+        OnSave = onSave;
+        ShowSaveDialog(item);
+    }
+
+    public void ShowSaveDialogAsync(TItem item, Func<TItem, Task<MessageContract>> onSaveAsync)
+    {
+        OnSave = null;
+        OnSaveAsync = onSaveAsync;
+        ShowSaveDialog(item);
+    }
+
+    void ShowSaveDialog(TItem item)
+    {
+        selectedItem = item;
+        saveDialog.ShowDialog();
+    }
+
+    void ShowSucess()
+    {
+        Snackbar.Add(SuccessMessage, Severity.Success, key: Guid.NewGuid().ToString());
+        saveDialog.CloseDialog();
+    }
+
+    void ShowError(ErrorContract errorContract)
+    {
+        Snackbar.Add(errorContract.EndUserMessage ?? errorContract.Message, Severity.Error, key: Guid.NewGuid().ToString());
+    }
+}
