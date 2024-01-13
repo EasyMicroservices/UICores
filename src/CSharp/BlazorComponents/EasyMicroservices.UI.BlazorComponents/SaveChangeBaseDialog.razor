@@ -68,15 +68,22 @@
     }
 
     Func<Task> _onAfterLoadAsync;
+    Func<Task> _onAfterSuccessAsync;
+    bool IsShowedOnce = false;
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        _ = Task.Run(async () =>
+        if (!IsShowedOnce)
         {
-            await Task.Delay(200);
-            await _onAfterLoadAsync?.Invoke();
-        });
+            IsShowedOnce = true;
+            _ = Task.Run(async () =>
+            {
+                await Task.Delay(200);
+                await _onAfterLoadAsync?.Invoke();
+            });
+        }
     }
+
     async void DoSave()
     {
         try
@@ -114,7 +121,7 @@
         }
     }
 
-    public void ShowSaveDialog(TItem item, Func<TItem, MessageContract> onSave, Action onAfterLoad = null)
+    public void ShowSaveDialog(TItem item, Func<TItem, MessageContract> onSave, Action onAfterLoad = null, Action onAfterSuccess = null)
     {
         if (onAfterLoad != null)
         {
@@ -124,20 +131,25 @@
                 return Task.CompletedTask;
             };
         }
+        if (onAfterSuccess != null)
+        {
+            _onAfterSuccessAsync = () =>
+            {
+                onAfterSuccess();
+                return Task.CompletedTask;
+            };
+        }
         OnSaveAsync = null;
         OnSave = onSave;
         ShowSaveDialog(item);
     }
 
-    public void ShowSaveDialogAsync(TItem item, Func<TItem, Task<MessageContract>> onSaveAsync, Func<Task> onAfterLoad = null)
+    public void ShowSaveDialogAsync(TItem item, Func<TItem, Task<MessageContract>> onSaveAsync, Func<Task> onAfterLoad = null, Func<Task> onAfterSuccess = null)
     {
         if (onAfterLoad != null)
-        {
-            _onAfterLoadAsync = async () =>
-            {
-                await onAfterLoad();
-            };
-        }
+            _onAfterLoadAsync = onAfterLoad;
+        if (onAfterSuccess != null)
+            _onAfterSuccessAsync = onAfterSuccess;
         OnSave = null;
         OnSaveAsync = onSaveAsync;
         ShowSaveDialog(item);
@@ -145,12 +157,14 @@
 
     void ShowSaveDialog(TItem item)
     {
+        IsShowedOnce = false;
         selectedItem = item;
         saveDialog.ShowDialog();
     }
 
     void ShowSucess()
     {
+        _onAfterSuccessAsync?.Invoke();
         Snackbar.Add(SuccessMessage, Severity.Success, key: Guid.NewGuid().ToString());
         saveDialog.CloseDialog();
     }
