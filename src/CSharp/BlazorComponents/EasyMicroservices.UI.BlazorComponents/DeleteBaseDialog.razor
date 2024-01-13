@@ -98,15 +98,27 @@
         }
     }
 
-    public void ShowDeleteDialog(TItem item, Func<TItem, MessageContract> onDelete)
+    Func<Task> _onAfterSuccessAsync;
+
+    public void ShowDeleteDialog(TItem item, Func<TItem, MessageContract> onDelete, Action onAfterSuccess = null)
     {
+        if (onAfterSuccess != null)
+        {
+            _onAfterSuccessAsync = () =>
+            {
+                onAfterSuccess();
+                return Task.CompletedTask;
+            };
+        }
         OnDeleteAsync = null;
         OnDelete = onDelete;
         ShowDeleteDialog(item);
     }
 
-    public void ShowDeleteDialogAsync(TItem item, Func<TItem, Task<MessageContract>> onDeleteAsync)
+    public void ShowDeleteDialogAsync(TItem item, Func<TItem, Task<MessageContract>> onDeleteAsync, Func<Task> onAfterSuccess = null)
     {
+        if (onAfterSuccess != null)
+            _onAfterSuccessAsync = onAfterSuccess;
         OnDelete = null;
         OnDeleteAsync = onDeleteAsync;
         ShowDeleteDialog(item);
@@ -120,6 +132,7 @@
 
     void ShowSucess()
     {
+        _onAfterSuccessAsync?.Invoke();
         Snackbar.Add(SuccessMessage, Severity.Success, key: Guid.NewGuid().ToString());
         deleteDialog.CloseDialog();
     }
