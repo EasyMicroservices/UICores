@@ -5,7 +5,7 @@
     <Platforms>AnyCPU;x64;x86</Platforms>
     <Authors>EasyMicroservices</Authors>
     <IsPackable>true</IsPackable>
-    <Version>0.0.0.23</Version>
+    <Version>0.0.0.24</Version>
     <Description>Model View View Model</Description>
     <Copyright>EasyMicroservices@gmail.com</Copyright>
     <PackageTags>mvvm,mvpvm,modelview,modelviewviewmodel</PackageTags>

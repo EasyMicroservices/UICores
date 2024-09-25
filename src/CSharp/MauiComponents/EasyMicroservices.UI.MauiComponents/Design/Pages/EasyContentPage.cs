@@ -14,13 +14,14 @@ public class EasyContentPage : ContentPage, IPage
         OnLoadComplete?.Invoke();
     }
 
-    public Action OnBackButtonPressedAction { get; set; }
+    public Func<bool> OnBackButtonPressedAction { get; set; }
 
     public Action OnLoadComplete { get; set; }
 
     protected override bool OnBackButtonPressed()
     {
-        OnBackButtonPressedAction?.Invoke();
+        if (OnBackButtonPressedAction is not null)
+            return OnBackButtonPressedAction();
         return base.OnBackButtonPressed();
     }
 

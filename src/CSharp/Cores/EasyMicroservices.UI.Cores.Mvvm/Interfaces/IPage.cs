@@ -16,7 +16,7 @@ public interface IPage
     /// <summary>
     /// 
     /// </summary>
-    Action OnBackButtonPressedAction { get; set; }
+    Func<bool> OnBackButtonPressedAction { get; set; }
     /// <summary>
     /// 
     /// </summary>

@@ -43,7 +43,26 @@ public class DefaultNavigationManager : NavigationManagerBase
         if (page.BindingContext is IResponsibleViewModel responsibleViewModel)
         {
             if (ipage != null)
-                ipage.OnBackButtonPressedAction = responsibleViewModel.Close;
+            {
+                if (ipage.OnBackButtonPressedAction is null)
+                {
+                    ipage.OnBackButtonPressedAction = () =>
+                    {
+                        responsibleViewModel.Close();
+                        return true;
+                    };
+                }
+                else
+                {
+                    var func = ipage.OnBackButtonPressedAction;
+                    ipage.OnBackButtonPressedAction = () =>
+                    {
+                        responsibleViewModel.Close();
+                        return func();
+                    };
+                }
+            }
+               
             var result = await responsibleViewModel.GetResult();
             if (result != null && result is TResponseData responseData)
                 return responseData;
@@ -92,12 +111,25 @@ public class DefaultNavigationManager : NavigationManagerBase
     /// 
     /// </summary>
     /// <param name="pageName"></param>
-    public void RegisterContentPage<TView>(string pageName)
+    public virtual void RegisterContentPage<TView>(string pageName)
         where TView : ContentView, new()
     {
         Pages.TryAdd(pageName, () =>
         {
             return new EasyContentPage()
+            {
+                Content = new TView()
+            };
+        });
+    }
+
+    public virtual void RegisterContentPage<TView, TEasyContentPage>(string pageName)
+        where TView : ContentView, new()
+        where TEasyContentPage : EasyContentPage, new()
+    {
+        Pages.TryAdd(pageName, () =>
+        {
+            return new TEasyContentPage()
             {
                 Content = new TView()
             };
